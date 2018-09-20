@@ -2,7 +2,7 @@ from counter import Counter
 
 
 # selection sort of printing speed from the fastest to the slowest
-def Selection_sort(list):
+def selection_sort(list):
     N = len(list)
     for i in range(0, N - 1):
         min_index = i

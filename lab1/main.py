@@ -1,7 +1,7 @@
 from printer import Printer
 from counter import Counter
 from datetime import datetime
-from selection_sort import Selection_sort
+from selection_sort import selection_sort
 from quicksort import Quicksort
 import csv
 
@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
     printer_list = read_data_from_file()
     start = datetime.now().microsecond
-    select_sorted_list = Selection_sort(printer_list)
+    select_sorted_list = selection_sort(printer_list)
     finish = datetime.now().microsecond
     print_answer("SELECTION SORT", work_time(start, finish), Counter.compare_num,
                  Counter.exchange_num, select_sorted_list)
