@@ -9,3 +9,5 @@ if __name__ == '__main__':
     manager = HamsterManager(InOutManager.stock)
     print(manager.hmstr_choose(InOutManager.array))
     print(len(manager.choosen))
+    print('\n\n\n')
+    manager.hmstr_half(InOutManager.array, len(InOutManager.array)-1, 0)
