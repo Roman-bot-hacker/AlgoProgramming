@@ -1,0 +1,10 @@
+foreignpassport,visa
+hotel,visa
+bankstatement,visa
+nationalpassport,bankstatement
+creditcard,hotel
+nationalpassport,creditcard
+birthcertificate,nationalpassport
+nationalpassport,foreignpassport
+militarycertificate,foreignpassport
+nationalpassport,militarycertificate
