@@ -8,22 +8,27 @@ class Graph:
         self.most_active_student = None
         self.friend_set = set()
 
-    def width_search(self):
+    def search_most_active_student(self):
+        self.__width_search()
+        return self.__get_most_active_student()
+
+    def __width_search(self):
         for student in self.net_dict:
             self.friend_set.clear()
-            self.friend_search(self.net_dict[student], student)
+            self.__friend_search(self.net_dict[student], student)
             self.friend_count_list.append(len(self.friend_set))
 
-    def friend_search(self, student, first_st):
+    def __friend_search(self, student_friends_list, student):
         self.depth_level_count += 1
-        for friend in student:
-            if friend != first_st:
-                self.friend_set.add(friend)
-                if self.depth_level_count < self._depth_level:
-                    self.friend_search(self.net_dict[friend], first_st)
+        for friend in student_friends_list:
+            if friend == student:
+                continue
+            self.friend_set.add(friend)
+            if self.depth_level_count < self._depth_level:
+                self.__friend_search(self.net_dict[friend], student)
         self.depth_level_count -= 1
 
-    def get_most_active_student(self):
+    def __get_most_active_student(self):
         for student in range(0, len(self.friend_count_list)):
             if self.most_active_student is None:
                 self.most_active_student = student

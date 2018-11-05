@@ -23,6 +23,7 @@ class InOutManager:
                         row_count += 1
         except FileNotFoundError:
             print("File with data does not exist!")
+        return self.graph
 
     def write_data_to_file(self, item):
         f = open('answer.txt', "w")
