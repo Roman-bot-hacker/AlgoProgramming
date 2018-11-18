@@ -1,23 +1,56 @@
 from math import sqrt
+import collections
+import functools
 
-def find_max_length(distance, max_heights):
-    first_height_max = __find_max_length(distance, __find_heights_by_first_height(max_heights))
-    max_heights[0] = 1
-    first_height_min = __find_max_length(distance, __find_heights_by_first_height(max_heights))
-    return max(first_height_max, first_height_min)
+class memoized(object):
 
+    def __init__(self, func):
+        self.func = func
+        self.cache = {}
 
-def __find_heights_by_first_height(heights):
-    for i in range(1, len(heights)):
-        if heights[i - 1] == 1:
-            pass
+    def __call__(self, *args):
+        if not isinstance(args, collections.Hashable):
+            return self.func(*args)
+        if args in self.cache:
+            return self.cache[args]
         else:
-            heights[i] = 1
-    return heights
+            value = self.func(*args)
+            self.cache[args] = value
+            return value
+
+    def __repr__(self):
+        return self.func.__doc__
+
+    def __get__(self, obj, objtype):
+        return functools.partial(self.__call__, obj)
 
 
-def __find_max_length(distance, heights):
-    max_length = 0.0
-    for i in range(1, len(heights)):
-        max_length += sqrt(distance ** 2 + (heights[i] - heights[i - 1]) ** 2)
-    return round(max_length, 2)
+distance = 100
+max_heights = [5,12,48,62,71,1,24,78,100,22,24]
+
+
+def find_max_length(v_distance, v_max_heights):
+    return round(max(__recursive_fun(len(max_heights) - 2, 0, 1)[0],
+                     __recursive_fun(len(max_heights) - 2, 0, max_heights[-1])[0]), 2)
+
+
+@memoized
+def __recursive_fun(step, wires_len, previous_height):
+    if step > 0:
+        rec1 = __recursive_fun(step - 1, __get_length(distance, previous_height, 1) + wires_len, 1)
+        rec2 = __recursive_fun(step - 1, __get_length(distance, previous_height, max_heights[step]) + wires_len, max_heights[step])
+    if step == 0:
+        rec1 = (__get_length(distance, previous_height, 1) + wires_len, 1)
+        rec2 = (__get_length(distance, previous_height, max_heights[step]) + wires_len, max_heights[step])
+    if rec1[0] > rec2[0]:
+        wires_len = rec1[0]
+        current_height = rec1[1]
+    else:
+        wires_len = rec2[0]
+        current_height = rec1[1]
+    return wires_len, current_height
+
+
+def __get_length(distance, h1, h2):
+    h = h2 - h1
+    return sqrt(h ** 2 + distance ** 2)
